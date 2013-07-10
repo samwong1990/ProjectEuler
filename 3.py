@@ -40,7 +40,7 @@ class Test(unittest.TestCase):
 
 
     # CODE FROM HERE:
-    # Could have try 2, and the rest the odd numbers in the range function... but oh well.
+    # Could have try 2, and then the odd numbers, instead of using the range function... but oh well.
 
 
 def simplePrimeFactors(n):
@@ -71,5 +71,5 @@ lambdaPrimeFactors = lambda n : (
                                 ) if n > 1 else []  
 
 if __name__ == '__main__':
-    lambdaPrimeFactors(600851475143)[-1]
+    print(lambdaPrimeFactors(600851475143)[-1])
     unittest.main()
