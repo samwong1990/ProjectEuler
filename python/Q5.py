@@ -17,15 +17,15 @@ class Test(unittest.TestCase):
 
     # CODE FROM HERE:
     
-lambdaPrimeFactors = lambda n : (
+lambdaFactors = lambda n : (
                         lambda nextFactor: 
-                                [nextFactor] + lambdaPrimeFactors( int(n / nextFactor) )
+                                [nextFactor] + lambdaFactors( int(n / nextFactor) )
                                 )(  # Find the first prime factor, recurse.
                                 filter(lambda factor : n % factor == 0, range(2, n+1)).__next__()
                                 ) if n > 1 else []  
 
 def smallestMultiple(n):
-    listOfPrimeFactors = map(lambdaPrimeFactors, range(2,n+1))
+    listOfPrimeFactors = map(lambdaFactors, range(2,n+1))
     factorOccurences = collections.defaultdict(int)
 
     for x in listOfPrimeFactors:
