@@ -1,0 +1,3 @@
+[submodule "lib/pyfunc"]
+	path = lib/pyfunc
+	url = git@github.com:samwong1990/pyfunc.git
