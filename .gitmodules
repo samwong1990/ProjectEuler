@@ -1,9 +1,3 @@
-[submodule "lib/pyfunc"]
-	path = lib/pyfunc
-	url = git@github.com:samwong1990/pyfunc.git
-[submodule "python/lib/pyfunc"]
-	path = python/lib/pyfunc
-	url = git@github.com:samwong1990/pyfunc.git
 [submodule "python/lib/functionalpy"]
 	path = python/lib/functionalpy
 	url = git@github.com:samwong1990/functionalpy.git
