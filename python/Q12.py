@@ -112,7 +112,7 @@ def naiveLeastTriangleNumberWithNDivisors(n):
 
 def leastTriangleNumberWithNDivisors(n):
     for triNum in genTriangleNumber():
-        print(triNum)
+        #print(triNum)
         if(getNumOfDivisors(triNum) > n):
             return triNum
 
@@ -120,4 +120,4 @@ if __name__ == '__main__':
     # Naive: <2mins
     # Optimized: 12s
     print(leastTriangleNumberWithNDivisors(500))
-    unittest.main()
+    # unittest.main()
