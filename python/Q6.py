@@ -1,6 +1,7 @@
 import unittest
 import itertools
-import functools
+from functools import *
+import operator
 
 class Test(unittest.TestCase):
 
@@ -11,16 +12,15 @@ class Test(unittest.TestCase):
         pass
 
     def test_method(self):
-        self.assertEqual(2640,sumSquareDifference(10))
+        self.assertEqual(2640,sum_square_difference(10))
 
     # CODE FROM HERE:
     
-def sumSquareDifference(n):
-    sumOfSquares = functools.reduce(lambda x,y:x+y, map(lambda x:x*x, range(1,n+1)))
-    squareOfSums = functools.reduce(lambda x,y:x+y, range(1,n+1))
-    squareOfSums *= squareOfSums
+def sum_square_difference(n):
+    sumOfSquares = reduce(operator.add, map(lambda x: x*x, range(1,n+1)) )
+    squareOfSums = reduce(operator.add, range(1,n+1)) ** 2
     return squareOfSums - sumOfSquares
 
 if __name__ == '__main__':
-    print(sumSquareDifference(100))
+    print(sum_square_difference(100))
     unittest.main()

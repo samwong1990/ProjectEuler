@@ -1,49 +1,39 @@
 import unittest
 import itertools
 from functools import partial, reduce
+from lib.functionalpy.functional import *
 import math
 import random
-import Q7
 import pytest
+
 # Work out the first ten digits of the sum of the following one-hundred 50-digit numbers.
 
 # let's learn pytest !
 
-def getNumberOfLength(n):
+def get_random_number_of_length(n):
     if n < 0 :
         raise ValueError("n should be >= 0")
     if n == 0:
         return ""
     return "".join(itertools.chain([str(random.randrange(1,10))], [str(random.randrange(1,10)) for x in range(n-1)]))
     
-def generateTestInputs():
-    inputs = [getNumberOfLength(3) for x in range(3)]
+def test_inputs_generator():
+    inputs = [get_random_number_of_length(3) for x in range(3)]
     return inputs, sum(map(int,inputs))
 
 @pytest.mark.parametrize("expectedLength", range(8))
-def test_getNumberStringOfLength(expectedLength):
+def test_get_random_number_of_length(expectedLength):
     print(expectedLength)
-    assert len(getNumberOfLength(expectedLength)) == expectedLength
+    assert len(get_random_number_of_length(expectedLength)) == expectedLength
 
 @pytest.mark.parametrize("problematicInput", list(range(-10,-1)) + [3.3])
-def test_getNumberStringOfLength_withProblematicInput(problematicInput):
+def test_get_random_number_of_length_withProblematicInput(problematicInput):
     with pytest.raises(BaseException):
-        getNumberOfLength(problematicInput)
+        get_random_number_of_length(problematicInput)
 
-@pytest.mark.parametrize("input, expected", [generateTestInputs() for x in range(3)])
+@pytest.mark.parametrize("input, expected", [test_inputs_generator() for x in range(3)])
 def test_sumStrings(input, expected):
     assert arbitrary_length_addition(input) == str(expected)
-    
-def compose(*functions):
-    return reduce(lambda f, g: lambda x: g(f(x)), functions)
-    """from http://mathieularose.com/function-composition-in-python/
-
-    But I don't agree with his composition definition
-    I think f o g = g(f(x))
-
-    """
-
-
 
 reverse_input = lambda x: map(reversed, x)
 group_digits = lambda x: zip(*x)

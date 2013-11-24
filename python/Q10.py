@@ -1,7 +1,8 @@
 import unittest
 import itertools
-import functools
-import Q7
+from functools import reduce
+import operator
+from lib.maths.primes import *
 
 class Test(unittest.TestCase):
 
@@ -12,19 +13,10 @@ class Test(unittest.TestCase):
         pass
 
     def test_method(self):
-        self.assertEqual(17, sumOfPrimesBelow(10))
-        
+        self.assertEqual(17, sum_of_primes_below(10))
 
-    # CODE FROM HERE:
-def sumOfPrimesBelow(n):
-    sum = 0
-    for prime in Q7.gen_primes():
-        if(prime >= n):
-            break
-        sum += prime
-    return sum
-
+sum_of_primes_below = lambda n: reduce(operator.add, prime_sequence_up_to(n))
 
 if __name__ == '__main__':
-    print(sumOfPrimesBelow(2000000))
+    print(sum_of_primes_below(2 * 10**6))
     unittest.main()

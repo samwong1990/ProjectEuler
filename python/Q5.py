@@ -2,7 +2,8 @@ import unittest
 import itertools
 import collections
 import operator
-import functools
+from functools import *
+from lib.maths.primes import find_prime_factors
 
 class Test(unittest.TestCase):
 
@@ -12,20 +13,13 @@ class Test(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_smallestMultiple(self):
-        self.assertEqual(2520, smallestMultiple(10))
+    def test_smallest_multiple_of(self):
+        self.assertEqual(2520, smallest_multiple_of(10))
 
-    # CODE FROM HERE:
-    
-lambdaFactors = lambda n : (
-                        lambda nextFactor: 
-                                [nextFactor] + lambdaFactors( int(n / nextFactor) )
-                                )(  # Find the first prime factor, recurse.
-                                filter(lambda factor : n % factor == 0, range(2, n+1)).__next__()
-                                ) if n > 1 else []  
-
-def smallestMultiple(n):
-    listOfPrimeFactors = map(lambdaFactors, range(2,n+1))
+def smallest_multiple_of(n):
+    """ Merge prime signature of range(1,n+1) to find the solution
+    """
+    listOfPrimeFactors = map(partial(find_prime_factors,unique=False), range(2,n+1))
     factorOccurences = collections.defaultdict(int)
 
     for x in listOfPrimeFactors:
@@ -33,9 +27,9 @@ def smallestMultiple(n):
         for primeFactor, occurences in counts.items():
             factorOccurences[primeFactor] = max(occurences, factorOccurences[primeFactor])
 
-    return functools.reduce(operator.mul, 
+    return reduce(operator.mul, 
         map(lambda factor: factor[0] ** factor[1], factorOccurences.items()))
     
 if __name__ == '__main__':
-    print(smallestMultiple(20))
+    print(smallest_multiple_of(20))
     unittest.main()

@@ -1,23 +1,33 @@
 import unittest
-import itertools
-import functools
+from itertools import *
+from functools import *
+import operator
 
+# down, right, downright, downleft in terms of array indexing
+directions = [(0,1), (1,0), (1,1), (-1,1)]  
 
-class Test(unittest.TestCase):
+addTuple = lambda a,b: tuple(starmap(operator.add, zip(a,b)))
 
-    def setUp(self):
-        pass
+def find_biggest_product_in(grid):
+    max_so_far = 0
 
-    def tearDown(self):
-        pass
+    for y in range(len(grid)):
+        for x in range(len(grid[0])):
+            for direction in directions:
+                coords = [(x,y)]
+                for _ in range(3):
+                    coords += [addTuple(coords[-1], direction)]
 
-    def test_method(self):
-        #self.assertEqual(17, sumOfPrimesBelow(10))
-        pass
+                current_product = 1
+                for (i,j) in coords:
+                    try:
+                        current_product *= grid[i][j]
+                    except IndexError:
+                        current_product = 0
+                        break
+                max_so_far = max(max_so_far, current_product)
 
-    # CODE FROM HERE:
-
-product = lambda buffer: functools.reduce(lambda x,y: x*y, buffer)
+    return max_so_far
 
 def parseInput(input):
     grid = []
@@ -26,90 +36,6 @@ def parseInput(input):
         numbers = line.split(" ")
         grid.append(list(map(int, numbers)))
     return grid
-        
-def right(grid):
-    maxSoFar = 0
-    for row in grid:
-        buffer = [0]*4
-        for index, number in enumerate(row):
-            buffer[index % 4] = number
-            maxSoFar = max(maxSoFar, product(buffer))
-    return maxSoFar
-
-def down(grid):
-    maxSoFar = 0
-    rows = len(grid)
-    cols = len(grid[0])
-
-    for col in range(cols):
-        buffer = [0]*4
-        for row in range(rows):
-            buffer[row % 4] = grid[row][col]
-            maxSoFar = max(maxSoFar, product(buffer))
-    return maxSoFar
-
-def diagonal(grid):
-    maxSoFar = 0
-    rows = len(grid)
-    cols = len(grid[0])
-
-    # Go from bottom left to top left
-    for row in reversed(range(rows)):
-        buffer = [0]*4
-        i = row
-        j = 0
-        while(i < rows and j < cols):
-            buffer[j % 4] = grid[i][j]
-            i += 1
-            j += 1
-            maxSoFar = max(maxSoFar, product(buffer))
-
-    # Go from top left to top right
-    for col in range(1,cols): # skip top left
-        buffer = [0]*4
-        index = 0
-        i = 0
-        j = col
-        while(i < rows and j < cols):
-            buffer[index % 4] = grid[i][j]
-            index += 1
-            i += 1
-            j += 1
-            maxSoFar = max(maxSoFar, product(buffer))
-    return maxSoFar
-
-def backdiagonal(grid):
-    
-    maxSoFar = 0
-    rows = len(grid)
-    cols = len(grid[0])
-
-    # Go from bottom right to top right
-    for row in reversed(range(rows)):
-        buffer = [0]*4
-        i = row
-        j = cols-1
-        index = 0
-        while(i < rows and j < cols):
-            buffer[index % 4] = grid[i][j]
-            index += 1
-            i += 1
-            j -= 1
-            maxSoFar = max(maxSoFar, product(buffer))
-
-    # Go from top right to top left
-    for col in reversed(range(cols)): # skip top left
-        buffer = [0]*4
-        index = 0
-        i = 0
-        j = col
-        while(i < rows and j < cols):
-            buffer[index % 4] = grid[i][j]
-            index += 1
-            i += 1
-            j -= 1
-            maxSoFar = max(maxSoFar, product(buffer))
-    return maxSoFar
 
 if __name__ == '__main__':
     input = """08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
@@ -132,7 +58,5 @@ if __name__ == '__main__':
 20 69 36 41 72 30 23 88 34 62 99 69 82 67 59 85 74 04 36 16
 20 73 35 29 78 31 90 01 74 31 49 71 48 86 81 16 23 57 05 54
 01 70 54 71 83 51 54 69 16 92 33 48 61 43 52 01 89 19 67 48"""
-
     grid = parseInput(input)
-    print(max(right(grid), down(grid), diagonal(grid), backdiagonal(grid)))
-    unittest.main()
+    print(find_biggest_product_in(grid))

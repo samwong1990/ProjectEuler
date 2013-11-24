@@ -11,11 +11,9 @@ class Test(unittest.TestCase):
         pass
 
     def test_method(self):
-        self.assertEqual(3*4*5, productOfPythagoreanTriplet(12))
+        self.assertEqual(3*4*5, product_of_pythagorean_triplet(12))
         
-
-    # CODE FROM HERE:
-def productOfPythagoreanTriplet(n):
+def product_of_pythagorean_triplet(n):
     for a in range(1, n-1):
         for b in range(1, n-1):
             c = n - a - b
@@ -25,5 +23,5 @@ def productOfPythagoreanTriplet(n):
 
 
 if __name__ == '__main__':
-    print(productOfPythagoreanTriplet(1000))
+    print(product_of_pythagorean_triplet(1000))
     unittest.main()
