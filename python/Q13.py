@@ -1,51 +1,61 @@
-import unittest
 import itertools
-from functools import partial, reduce
-from lib.functionalpy.functional import *
-import math
+from functools import reduce
+from lib.functionalpy.functional import compose
 import random
 import pytest
 
-# Work out the first ten digits of the sum of the following one-hundred 50-digit numbers.
+# Work out the first ten digits of the sum of the
+# following one-hundred 50-digit numbers.
 
 # let's learn pytest !
 
+
 def get_random_number_of_length(n):
-    if n < 0 :
+    if n < 0:
         raise ValueError("n should be >= 0")
     if n == 0:
         return ""
-    return "".join(itertools.chain([str(random.randrange(1,10))], [str(random.randrange(1,10)) for x in range(n-1)]))
-    
+    return "".join(itertools.chain(
+        [str(random.randrange(1, 10))],
+        [str(random.randrange(1, 10)) for x in range(n - 1)])
+    )
+
+
 def test_inputs_generator():
     inputs = [get_random_number_of_length(3) for x in range(3)]
-    return inputs, sum(map(int,inputs))
+    return inputs, sum(map(int, inputs))
+
 
 @pytest.mark.parametrize("expectedLength", range(8))
 def test_get_random_number_of_length(expectedLength):
     print(expectedLength)
     assert len(get_random_number_of_length(expectedLength)) == expectedLength
 
-@pytest.mark.parametrize("problematicInput", list(range(-10,-1)) + [3.3])
+
+@pytest.mark.parametrize("problematicInput", list(range(-10, -1)) + [3.3])
 def test_get_random_number_of_length_withProblematicInput(problematicInput):
     with pytest.raises(BaseException):
         get_random_number_of_length(problematicInput)
 
-@pytest.mark.parametrize("input, expected", [test_inputs_generator() for x in range(3)])
+
+@pytest.mark.parametrize(
+    "input, expected",
+    [test_inputs_generator() for x in range(3)]
+)
 def test_sumStrings(input, expected):
     assert arbitrary_length_addition(input) == str(expected)
 
 reverse_input = lambda x: map(reversed, x)
 group_digits = lambda x: zip(*x)
-string_tuple_to_int_tuple = lambda y: map(int,y)
-convert_to_int_tuples = lambda x: map(string_tuple_to_int_tuple,x)
+string_tuple_to_int_tuple = lambda y: map(int, y)
+convert_to_int_tuples = lambda x: map(string_tuple_to_int_tuple, x)
 sum_digits = lambda x: map(sum, x)
-accumulateDigits = lambda sumOfDigits : reduce(
-                                    lambda l, r: ( str((r+l[1])%10) + l[0], (r+l[1])//10), 
-                                    sumOfDigits, 
-                                    ('',0)
-                                )
-finalCarry = lambda x: str(x[1])+x[0] if x[1] else x[0]
+accumulateDigits = lambda sumOfDigits: reduce(
+    lambda l, r: (str((r + l[1]) % 10) + l[0], (r + l[1]) // 10),
+    sumOfDigits,
+    ('', 0)
+)
+finalCarry = lambda x: str(x[1]) + x[0] if x[1] else x[0]
 
 
 def arbitrary_length_addition(list_of_numerical_strings):
@@ -56,7 +66,7 @@ def arbitrary_length_addition(list_of_numerical_strings):
         sum_digits,
         accumulateDigits,
         finalCarry)(list_of_numerical_strings)
-    
+
 if __name__ == "__main__":
     input = """37107287533902102798797998220837590246510135740250
 46376937677490009712648124896970078050417018260538
@@ -160,5 +170,3 @@ if __name__ == "__main__":
 53503534226472524250874054075591789781264330331690
 """.splitlines()
     print(arbitrary_length_addition(input)[:10])
-
-

@@ -1,0 +1,4 @@
+.DS_Store
+**/__pycache__/
+*.py[cod]
+python/__pycache__/Q13.cpython-33-PYTEST.pyc

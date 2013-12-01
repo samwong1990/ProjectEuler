@@ -1,3 +1,6 @@
 [submodule "python/lib/functionalpy"]
 	path = python/lib/functionalpy
 	url = git@github.com:samwong1990/functionalpy.git
+[submodule "python/lib/sympy"]
+	path = python/lib/sympy
+	url = git@github.com:sympy/sympy.git
